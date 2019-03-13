@@ -22,12 +22,12 @@ parameter_columns = [col for col in train_data.columns]
 
 def transform_data(data, cols, days_past_peak = 0):
     data1 = data[(data.day_count > 30) & (data.days_to_peak_bloom >= -days_past_peak)]
-    
+
     parameter_columns = [col for col in data1.columns]
     non_parameter_columns = ['date', 'precip','days_to_peak_bloom']
     for npc in non_parameter_columns:
         parameter_columns.remove(npc)
-    
+
     X = data1[parameter_columns]
     y = data1['days_to_peak_bloom']
     return X, y, parameter_columns
@@ -39,7 +39,7 @@ def transform_data(data, cols, days_past_peak = 0):
 X_train, y_train, parameter_columns = transform_data(train_data, parameter_columns)
 rfr = RandomForestRegressor()
 search = RandomizedSearchCV(
-        rfr, 
+        rfr,
         param_distributions={
                 'n_estimators': [4,8,16,32,64,128,256],
                 'max_features': ['auto', 'log2', 'sqrt']
@@ -84,7 +84,7 @@ plt.show()
 X_train20, y_train20, _ = transform_data(train_data, parameter_columns, days_past_peak = 20)
 #rfr = RandomForestRegressor()
 search20 = RandomizedSearchCV(
-        rfr, 
+        rfr,
         param_distributions={
                 'n_estimators': [4,8,16,32,64,128,256],
                 'max_features': ['auto', 'log2', 'sqrt']
